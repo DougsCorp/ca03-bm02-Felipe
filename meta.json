@@ -1,0 +1,26 @@
+﻿{
+    "domain":  "calculatesupply.com",
+    "bm_id":  "bm02",
+    "cloned_from":  "ca01-bm02-Andrea",
+    "ga_measurement_id":  "G-PTY57M66PW",
+    "github_repo":  "DougsCorp/ca03-bm02-Felipe",
+    "operator":  "Felipe",
+    "status":  "deployed",
+    "ca_id":  "ca03",
+    "subdomain":  "xvh",
+    "product":  "CogniClear",
+    "full_url":  "https://xvh.calculatesupply.com",
+    "pages":  [
+                  {
+                      "path":  "/vsl1/",
+                      "template":  "Quiz-ps-CogniClear",
+                      "type":  "ps"
+                  },
+                  {
+                      "path":  "/vsl1/pv-cognC/",
+                      "template":  "CBS-vsl-CogniClear",
+                      "type":  "vsl"
+                  }
+              ]
+}
+

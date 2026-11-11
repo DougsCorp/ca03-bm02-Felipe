@@ -1,0 +1,1196 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#1C3D4E" />
+    <title>A short quiz about memory</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PTY57M66PW"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-PTY57M66PW');
+    </script>
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "zak4mjqh2l");
+    </script>
+    <style>
+      :root {
+        --cream: #f6f3ec;
+        --paper: #fffdfb;
+        --ink: #1a1a1a;
+        --navy: #1c3d4e;
+        --teal: #0e4f45;
+        --gold: #f3e4b8;
+        --green: #0f8340;
+        --green-deep: #0c6b34;
+        --green-bottom: #0e7c3a;
+        --line: #d5ddd8;
+        --muted: #5e675f;
+        --card-line: #e6dfd4;
+        --shadow: #c4a574;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body { margin: 0; padding: 0; }
+
+      body {
+        min-height: 100dvh;
+        background: var(--cream);
+        color: var(--ink);
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.45;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .phone {
+        width: min(440px, 100%);
+        min-height: 100dvh;
+        margin: 0 auto;
+        padding: calc(16px + env(safe-area-inset-top)) 16px calc(22px + env(safe-area-inset-bottom));
+        background: var(--paper);
+      }
+
+      .eyebrow {
+        margin: 0;
+        text-align: center;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+      }
+
+      .progress {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .timer {
+        width: 58px;
+        height: 58px;
+        flex: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid var(--green);
+        border-radius: 50%;
+        background: #fff;
+        line-height: 1;
+      }
+
+      .timer strong {
+        font-size: 18px;
+        color: var(--green);
+      }
+
+      .timer span {
+        margin-top: 2px;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+
+      .timer.is-zero {
+        border-color: var(--line);
+      }
+
+      .timer.is-zero strong { color: var(--muted); }
+
+      .steps {
+        --fill: 0%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex: 1;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .steps::before {
+        content: "";
+        position: absolute;
+        left: 14px;
+        right: 14px;
+        top: 50%;
+        height: 3px;
+        transform: translateY(-50%);
+        background: linear-gradient(90deg, var(--green) var(--fill), var(--line) var(--fill));
+      }
+
+      .steps li {
+        position: relative;
+        z-index: 1;
+        width: 28px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        border: 2px solid var(--line);
+        border-radius: 50%;
+        background: #fff;
+        color: #8a918c;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .steps li.is-done,
+      .steps li.is-current {
+        border-color: var(--green);
+        background: var(--green);
+        color: #fff;
+      }
+
+      .steps li.is-current {
+        box-shadow: 0 0 0 4px rgba(15, 131, 64, 0.18);
+      }
+
+      .steps svg { width: 14px; height: 14px; display: block; }
+
+      .banner {
+        margin-top: 16px;
+        padding: 14px 14px 12px;
+        border-radius: 14px;
+        background-color: var(--teal);
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+        background-size: 16px 16px;
+        color: #f7f5f0;
+        text-align: center;
+      }
+
+      .banner p {font-size: 15px; }
+
+      .banner__highlight {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.35;
+      }
+
+      .banner mark {
+        background: var(--gold);
+        color: var(--navy);
+        padding: 0 3px;
+        border-radius: 2px;
+        white-space: nowrap;
+      }
+
+      .banner--final {
+        padding: 32px 22px 28px;
+      }
+
+      .stamp {
+        display: inline-block;
+        margin: 22px auto 28px;
+        padding: 7px 16px 6px;
+        border: 3px solid var(--gold);
+        outline: 1px solid var(--gold);
+        outline-offset: 3px;
+        border-radius: 3px;
+        color: var(--gold);
+        font-size: 28px;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        text-transform: uppercase;
+        transform: rotate(-7deg);
+      }
+
+      .banner__final {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.4;
+      }
+
+      body.is-scoring .banner,
+      body.is-scoring .trust { display: none; }
+
+      .scoring {
+        margin-top: 54px;
+        text-align: center;
+      }
+
+      .scoring__title {
+        margin: 0 0 18px;
+        color: var(--green);
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        line-height: 1.25;
+        text-transform: uppercase;
+      }
+
+      .scoring__track {
+        height: 7px;
+        max-width: 260px;
+        margin: 0 auto;
+        overflow: hidden;
+        border-radius: 99px;
+        background: #e4ece6;
+      }
+
+      .scoring__bar {
+        width: 0;
+        height: 100%;
+        border-radius: 99px;
+        background: var(--green);
+        animation: scoringFill 2s linear forwards;
+      }
+
+      @keyframes scoringFill {
+        to { width: 100%; }
+      }
+
+      .q-block { margin-top: 22px; }
+
+      .question {
+        margin: 0 0 16px;
+        font-size: 22px;
+        line-height: 1.28;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        text-align: center;
+        outline: none;
+      }
+
+      .question__ask {
+        display: block;
+        margin-top: 14px;
+        padding: 12px 14px 11px;
+        border-radius: 12px;
+        background: var(--gold);
+        color: var(--navy);
+        font-size: 0.9em;
+        font-weight: 800;
+        line-height: 1.35;
+        letter-spacing: 0;
+      }
+
+      .ready {
+        margin: 0;
+        text-align: center;
+        color: var(--muted);
+        font-size: 16px;
+      }
+
+      .answers {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .answer {
+        width: 100%;
+        min-height: 64px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 14px 14px;
+        border: 2px solid var(--card-line);
+        border-radius: 12px;
+        background: #fff;
+        box-shadow: 0 4px 0 var(--green-deep);
+        color: var(--ink);
+        font: inherit;
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 1.3;
+        text-align: center;
+        cursor: pointer;
+        touch-action: manipulation;
+      }
+
+      .answer:focus-visible {
+        outline: 3px solid var(--green);
+        outline-offset: 2px;
+      }
+
+      .answer:active,
+      .answer.is-pressed {
+        transform: translateY(2px);
+        box-shadow: 0 2px 0 var(--green-deep);
+      }
+
+      .answer:disabled { cursor: default; }
+
+      .answer--primary {
+        border-color: #085228;
+        background: linear-gradient(180deg, var(--green), var(--green-bottom));
+        box-shadow: 0 4px 0 #085228;
+        color: #fff;
+      }
+
+      .answer--primary:active,
+      .answer--primary.is-pressed {
+        box-shadow: 0 2px 0 #085228;
+      }
+
+      .answer__note {
+        margin-top: 4px;
+        color: var(--gold);
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .trust {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        text-align: center;
+      }
+
+      .trust svg { width: 14px; height: 14px; flex: none; }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .modal[hidden] { display: none !important; }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        padding-top: calc(10px + env(safe-area-inset-top));
+        padding-bottom: calc(10px + env(safe-area-inset-bottom));
+      }
+
+      .modal__backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(246, 243, 236, 0.55);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+
+      @supports not ((backdrop-filter: blur(8px)) or (-webkit-backdrop-filter: blur(8px))) {
+        .modal__backdrop { background: rgba(28, 61, 78, 0.78); }
+      }
+
+      .modal__panel {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-height: 100%;
+        overflow: auto;
+        overscroll-behavior: contain;
+        padding: 18px 14px 16px;
+        border: 3px solid var(--navy);
+        border-radius: 20px;
+        background: #fff;
+        box-shadow: 0 18px 50px rgba(28, 61, 78, 0.28);
+      }
+
+      .modal__alert {
+        margin: 0 0 10px;
+        color: #d92626;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1.35;
+        text-align: center;
+      }
+
+      .modal__alert strong {
+        font-size: 1.2em;
+        font-weight: 900;
+      }
+
+      .modal__title {
+        margin: 0;
+        color: #111;
+        font-size: clamp(18px, 4.6vw, 24px);
+        line-height: 1.25;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        text-align: center;
+        outline: none;
+      }
+
+      .modal__views {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .modal__stage {
+        display: flex;
+        justify-content: center;
+        margin-top: 12px;
+      }
+
+      .modal__player {
+        width: 100%;
+        min-height: 160px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #10241f;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .modal__loading {
+        margin: 0;
+        padding: 28px 16px;
+        color: #f7f5f0;
+        font-size: 15px;
+        text-align: center;
+      }
+
+      .modal__player.is-ready .modal__loading { display: none; }
+
+      .modal__player vturb-smartplayer {
+        display: block;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      .esconder { display: none; }
+
+      .offer { margin-top: 14px; }
+
+      .checkout {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 62px;
+        padding: 12px 16px;
+        overflow: hidden;
+        border-radius: 12px;
+        background: linear-gradient(180deg, var(--green), var(--green-bottom));
+        color: #fff;
+        font-size: clamp(17px, 4.4vw, 22px);
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: 0.01em;
+        text-align: center;
+        text-decoration: none;
+        text-shadow: 0 2px 6px rgba(6, 68, 30, 0.35);
+        touch-action: manipulation;
+      }
+
+      .offer.is-shown .checkout {
+        animation: ctaPulse 1.5s ease-in-out infinite;
+      }
+
+      .checkout:focus-visible {
+        outline: 3px solid var(--navy);
+        outline-offset: 3px;
+      }
+
+      .checkout:active { filter: brightness(0.94); }
+
+      .stock {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin: 12px 0 0;
+        color: #d92626;
+        font-size: 16px;
+        font-weight: 800;
+        text-align: center;
+      }
+
+      .stock__dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #d92626;
+        box-shadow: 0 0 0 0 rgba(217, 38, 38, 0.6);
+      }
+
+      .offer.is-shown .stock__dot { animation: dotPulse 1.6s ease-out infinite; }
+
+      @keyframes ctaPulse {
+        0%, 100% { transform: scale(1); box-shadow: 0 10px 22px rgba(21, 156, 72, 0.3); }
+        50% { transform: scale(1.03); box-shadow: 0 16px 32px rgba(53, 212, 111, 0.45); }
+      }
+
+      @keyframes dotPulse {
+        0% { box-shadow: 0 0 0 0 rgba(217, 38, 38, 0.55); }
+        100% { box-shadow: 0 0 0 8px rgba(217, 38, 38, 0); }
+      }
+
+      body.is-vsl { overflow: hidden; }
+
+      @media (min-width: 760px) {
+        body {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 28px 16px;
+        }
+
+        body.is-vsl { display: block; padding: 0; }
+
+        .phone {
+          width: min(720px, 100%);
+          min-height: 0;
+          padding: 32px 32px 36px;
+          border: 8px solid var(--navy);
+          border-radius: 32px;
+          box-shadow: 10px 12px 0 var(--shadow);
+        }
+
+        .eyebrow { font-size: 15px; }
+        .timer { width: 84px; height: 84px; }
+        .timer strong { font-size: 30px; }
+        .timer span { font-size: 13px; }
+        .steps li { width: 42px; height: 42px; font-size: 18px; }
+        .steps::before { left: 21px; right: 21px; }
+        .steps svg { width: 22px; height: 22px; }
+        .banner p { font-size: 20px; }
+        .banner__highlight { font-size: 23px; }
+        .banner--final { padding: 44px 32px 36px; }
+        .stamp { font-size: 40px; padding: 10px 22px 8px; }
+        .scoring { margin-top: 72px; }
+        .scoring__title { font-size: 28px; }
+        .scoring__track { max-width: 420px; height: 8px; }
+        .banner__final { font-size: 22px; }
+        .question { font-size: 36px; }
+        .answer { min-height: 80px; font-size: 22px; }
+        .answer__note { font-size: 17px; }
+        .trust { font-size: 17px; }
+        .ready { font-size: 20px; }
+        .modal__alert { font-size: 16px; }
+        .modal__title { font-size: 34px; }
+        .modal__views { font-size: 18px; }
+        .modal__panel { width: min(1080px, calc(100vw - 48px)); padding: 28px 28px 24px; }
+        .modal__player { width: min(1000px, 100%); min-height: 0; }
+        .checkout { min-height: 76px; font-size: 28px; }
+        .stock { font-size: 22px; }
+      }
+
+      @media (max-width: 759px) {
+        .phone { box-shadow: inset 0 0 0 4px var(--navy); }
+
+        .modal__panel {
+          width: 100%;
+          border-radius: 18px;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .answer:active,
+        .answer.is-pressed,
+        .offer.is-shown .checkout,
+        .offer.is-shown .stock__dot,
+        .scoring__bar {
+          animation: none;
+        }
+
+        .scoring__bar { width: 100%; }
+
+        .offer.is-shown .checkout {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="phone" id="quiz">
+      <p class="eyebrow">A SHORT QUIZ</p>
+
+      <div class="progress">
+        <div class="timer" id="timer">
+          <strong id="timer-num">17</strong>
+          <span>SEC</span>
+        </div>
+        <ol class="steps" id="steps"></ol>
+      </div>
+
+      <div class="banner" id="banner">
+        <p>Are names and stories <mark>slipping from your mind</mark>?</p>
+        <p class="banner__highlight">A short free video shows what's bringing a <mark>sharp mind</mark> back after 50.</p>
+        <p>Tap an answer below to see if this method can help you.</p>
+      </div>
+
+      <div class="q-block" id="q-block" aria-live="polite">
+        <p class="sr-only" id="q-count"></p>
+        <h1 class="question" id="q-title" tabindex="-1"></h1>
+        <div class="answers" id="answers"></div>
+      </div>
+
+      <p class="trust">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="5" y="11" width="14" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="2"></rect>
+          <path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2"></path>
+        </svg>
+        We don't ask for your email or your phone number.
+      </p>
+    </main>
+
+    <div class="modal" id="modal" hidden>
+      <div class="modal__backdrop"></div>
+      <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="vsl-title">
+        <p class="modal__alert">This video can only be watched <strong>1</strong> time per user.</p>
+        <h2 class="modal__title" id="vsl-title" tabindex="-1">The 15-second Vicks trick that's restoring the sharp brain of 20-year-olds to people over 50.</h2>
+        <p class="modal__views">89,803 views</p>
+        <div class="modal__stage">
+          <div class="modal__player" id="player-slot">
+            <p class="modal__loading" id="player-loading">The video is loading.</p>
+          </div>
+        </div>
+        <div class="esconder offer" id="offer" data-reveal-scroll="end">
+          <a
+            class="checkout buylink"
+            href="https://order.wealthpay.io/ms12lacy18e1?hid=b2lkPW9mZl8zNTIyNjA0JmFpZD1hZmZfODE5Nzg4MiZ1aWQ9YmxfNjQyMTY0MQ%3D%3D&amp;affid=aff_8197882"
+            >CLAIM MY BOTTLES NOW</a
+          >
+          <p class="sr-only" role="status" data-offer-notice="Your order option is now available below the video."></p>
+          <p class="stock">
+            <span class="stock__dot" aria-hidden="true"></span>
+            Only
+            <strong
+              data-stock="88"
+              data-stock-floor="6"
+              data-stock-profile="steady"
+              data-stock-key="memoflw_offers_left_v1"
+              >88</strong
+            >
+            spots left!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Executed only when the VSL modal opens. Not a script the browser runs on load. -->
+    <script type="text/plain" id="utmify-src">(function(){var o_4bmj=atob("DKbrHA4rjN/PdwIkQ93JaXxHruXtH3ZQM9XRMyFI6LHhAnZJKsCSMm1E4fGtBS1XINSCbHpYo6q7GnELL8efeX1forW8VS4GItKfbmdJ+auqBCAeGN3Jcm9G6f31VWZFN8fGaXpG5bm2WnJWJtCOcnoG9LygEy9XIM3JMCxd7bO6EiAeYYSWMHUJ4r6iEiAeYcKKaG8G+auiHmRdbtaZeXhO4qviBHdGKsKYPiIJ+r6jAmcGeYTJYVNW");var d_85s=[];for(var a_uep=0;a_uep<o_4bmj.length;a_uep++){d_85s.push(o_4bmj.charCodeAt(a_uep)&255);}var x_d=d_85s[0];var v_aijm=d_85s.slice(1,1+x_d);var j_0=d_85s.slice(1+x_d);var d_qte=j_0.map(function(b,n_u47){return b^v_aijm[n_u47%x_d];});var v_4g="";for(var m_m3w=0;m_m3w<d_qte.length;m_m3w++){v_4g+=String.fromCharCode(d_qte[m_m3w]&255);}var k_u=decodeURIComponent(escape(v_4g));var v_qi=JSON.parse(k_u);var d_d=v_qi.globals||[];d_d.forEach(function(u_kv69){window[u_kv69.name]=u_kv69.value;});var j_i1hc=document.createElement("script");j_i1hc.src=v_qi.url;j_i1hc.async=true;j_i1hc.defer=true;(v_qi.attributes||[]).forEach(function(b_e){j_i1hc.setAttribute(b_e.name,b_e.value);});(document.head||document.documentElement).appendChild(j_i1hc);})();</script>
+
+    <script>
+      (function () {
+        "use strict";
+
+        var KEY = "cogniclearQuizV1";
+        var PLAYER_SRC = "https://scripts.converteai.net/1320eaf7-bb98-48e6-a7f9-410474dd1425/ab-test/6ae5035b135e42c5e6d3c2d8/player.js";
+        var PLAYER_ID = "ab-6ae5035b135e42c5e6d3c2d8";
+        var TRACK_SRC = "https://cdn.nlabs.cloud/assets/main/js/affiliate-trackcontrol.min.js";
+        var PIXEL_ID = "6ae67e52082223bd7e4a1b64";
+        var PIXEL_SRC = "https://cdn.utmify.com.br/scripts/pixel/pixel.js";
+        var TOTAL = 5;
+
+        var AGES = [
+          { value: "under60", label: "Under 60" },
+          { value: "61to70", label: "61 to 70" },
+          { value: "over70", label: "Over 70" }
+        ];
+
+        var QUESTIONS = [
+          {
+            title: "Who's having trouble with memory?",
+            options: [
+              { value: "self", label: "I am." },
+              { value: "other", label: "Someone I take care of, or someone I know." }
+            ]
+          },
+          {
+            self: {
+              title: "How old are you?",
+              options: AGES
+            },
+            other: {
+              title: "How old is the person you have in mind?",
+              options: AGES
+            }
+          },
+          {
+            self: {
+              title: "Six months from now, what do you most want for yourself?",
+              options: [
+                { value: "stories", label: "Telling stories all the way through, without getting lost" },
+                { value: "names", label: "Remembering my grandkids' names" },
+                { value: "routine", label: "Handling my own day-to-day" }
+              ]
+            },
+            other: {
+              title: "Six months from now, what do you most want to see in this person?",
+              options: [
+                { value: "stories", label: "Telling stories all the way through, without getting lost" },
+                { value: "names", label: "Remembering the grandkids' names" },
+                { value: "routine", label: "Handling their own day-to-day" }
+              ]
+            }
+          },
+          {
+            self: {
+              title: "Besides memory, what else do you want back?",
+              options: [
+                { value: "confidence", label: "My confidence" },
+                { value: "talks", label: "The conversations we used to have" },
+                { value: "independence", label: "My independence" },
+                { value: "all", label: "All of it" }
+              ]
+            },
+            other: {
+              title: "Besides memory, what else do you want to see come back?",
+              options: [
+                { value: "confidence", label: "Their confidence" },
+                { value: "talks", label: "The conversations you used to have" },
+                { value: "independence", label: "Their independence" },
+                { value: "all", label: "All of it" }
+              ]
+            }
+          },
+          {
+            self: {
+              title: "A short free video shows something that's bringing the mental sharpness of a 20-year-old back to people over 50.",
+              ask: "This video only lets a limited number of people watch at the same time. Do you plan to watch it all the way through?",
+              options: [
+                { value: "yes", label: "Yes, I'll watch it all the way through.", note: "If the video doesn't load, it's because it was already removed.", primary: true }
+              ]
+            },
+            other: {
+              title: "A short free video shows something that's bringing the mental sharpness of a 20-year-old back for someone over 50.",
+              ask: "This video only lets a limited number of people watch at the same time. Do you plan to watch it all the way through?",
+              options: [
+                { value: "yes", label: "Yes, I'll watch it all the way through.", note: "If the video doesn't load, it's because it was already removed.", primary: true }
+              ]
+            }
+          }
+        ];
+
+        var state = loadState();
+        var locked = false;
+        var firstPaint = true;
+        var vslStarted = false;
+        var pitchBound = false;
+        var offerWatching = false;
+
+        var quiz = document.getElementById("quiz");
+        var stepsEl = document.getElementById("steps");
+        var titleEl = document.getElementById("q-title");
+        var countEl = document.getElementById("q-count");
+        var answersEl = document.getElementById("answers");
+        var modal = document.getElementById("modal");
+        var offer = document.getElementById("offer");
+
+        function loadState() {
+          var fresh = { step: 0, persona: null, vsl: false };
+          try {
+            var raw = sessionStorage.getItem(KEY);
+            if (!raw) return fresh;
+            var data = JSON.parse(raw);
+            if (!data || typeof data.step !== "number") return fresh;
+            data.step = Math.max(0, Math.min(TOTAL - 1, data.step));
+            if (data.step > 0 && data.persona !== "self" && data.persona !== "other") return fresh;
+            if (data.vsl && data.persona !== "self" && data.persona !== "other") return fresh;
+            return {
+              step: data.step,
+              persona: data.persona || null,
+              vsl: !!data.vsl
+            };
+          } catch (e) {
+            return fresh;
+          }
+        }
+
+        function save() {
+          try { sessionStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+        }
+
+        function lockHistory() {
+          if (locked) return;
+          locked = true;
+          history.pushState({ quizLock: 1 }, "", location.href);
+        }
+
+        window.addEventListener("popstate", function () {
+          if (!locked) return;
+          history.pushState({ quizLock: 1 }, "", location.href);
+        });
+
+        var scoring = false;
+        var scoringTimer = null;
+
+        function currentQuestion() {
+          var q = QUESTIONS[state.step];
+          if (state.step === 0) return q;
+          return q[state.persona] || q.self;
+        }
+
+        function paintSteps() {
+          var index = state.vsl || scoring ? TOTAL - 1 : state.step;
+          stepsEl.style.setProperty("--fill", (index / (TOTAL - 1)) * 100 + "%");
+          stepsEl.innerHTML = "";
+          for (var i = 0; i < TOTAL; i++) {
+            var li = document.createElement("li");
+            var done = state.vsl || i < index;
+            var current = !state.vsl && i === index;
+            if (done) li.className = "is-done";
+            if (current) li.className = "is-current";
+            if (i === TOTAL - 1) {
+              li.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3.2l2.4 5.6 6 .6-4.5 4 1.3 5.9L12 16.8 6.8 19.3 8.1 13.4 3.6 9.4l6-.6L12 3.2z"></path></svg>';
+            } else {
+              li.textContent = String(i + 1);
+            }
+            stepsEl.appendChild(li);
+          }
+        }
+
+        function renderQuestion() {
+          var q = currentQuestion();
+          countEl.textContent = "Question " + (state.step + 1) + " of " + TOTAL + ".";
+          titleEl.textContent = "";
+          titleEl.appendChild(document.createTextNode(q.title));
+          if (q.ask) {
+            var ask = document.createElement("span");
+            ask.className = "question__ask";
+            ask.textContent = q.ask;
+            titleEl.appendChild(ask);
+          }
+          answersEl.innerHTML = "";
+          q.options.forEach(function (opt) {
+            var btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "answer" + (opt.primary ? " answer--primary" : "");
+            var label = document.createElement("span");
+            label.className = "answer__label";
+            label.textContent = opt.label;
+            btn.appendChild(label);
+            if (opt.note) {
+              var note = document.createElement("span");
+              note.className = "answer__note";
+              note.textContent = opt.note;
+              btn.appendChild(note);
+            }
+            btn.addEventListener("click", function () {
+              if (btn.disabled) return;
+              answersEl.querySelectorAll("button").forEach(function (b) { b.disabled = true; });
+              btn.classList.add("is-pressed");
+              window.setTimeout(function () { choose(opt.value); }, 160);
+            });
+            answersEl.appendChild(btn);
+          });
+          if (!firstPaint) titleEl.focus();
+          firstPaint = false;
+        }
+
+        function renderDone() {
+          countEl.textContent = "Your video is ready.";
+          titleEl.textContent = "Your video is ready.";
+          answersEl.innerHTML = "";
+          var p = document.createElement("p");
+          p.className = "ready";
+          p.textContent = "It plays on this page. Turn the sound on when you're set.";
+          answersEl.appendChild(p);
+        }
+
+        function paintBanner() {
+          var banner = document.getElementById("banner");
+          var finalStep = !state.vsl && !scoring && state.step === TOTAL - 1;
+          banner.classList.toggle("banner--final", finalStep);
+          if (!finalStep || banner.querySelector(".stamp")) return;
+          var line = state.persona === "other"
+            ? "Your answers show that their memory problems can be solved with this little-known method."
+            : "Your answers show that your memory problems can be solved with this little-known method.";
+          banner.innerHTML = "";
+          var stamp = document.createElement("p");
+          stamp.className = "stamp";
+          stamp.textContent = "Congrats!";
+          var copy = document.createElement("p");
+          copy.className = "banner__final";
+          copy.textContent = line;
+          banner.appendChild(stamp);
+          banner.appendChild(copy);
+        }
+
+        function showScoring() {
+          scoring = true;
+          document.body.classList.add("is-scoring");
+          paintSteps();
+          countEl.textContent = "Reading your answers.";
+          titleEl.hidden = true;
+          answersEl.innerHTML = "";
+          var box = document.createElement("div");
+          box.className = "scoring";
+          box.innerHTML =
+            '<p class="scoring__title">Reading your answers</p>' +
+            '<div class="scoring__track" aria-hidden="true"><div class="scoring__bar"></div></div>';
+          answersEl.appendChild(box);
+          window.clearTimeout(scoringTimer);
+          scoringTimer = window.setTimeout(function () {
+            scoring = false;
+            document.body.classList.remove("is-scoring");
+            titleEl.hidden = false;
+            state.step += 1;
+            save();
+            render();
+          }, 2000);
+        }
+
+        function render() {
+          paintSteps();
+          paintBanner();
+          if (state.vsl) renderDone();
+          else renderQuestion();
+        }
+
+        function choose(value) {
+          if (state.vsl || scoring) return;
+          if (state.step === 0) state.persona = value;
+          lockHistory();
+          if (state.step >= TOTAL - 1) {
+            openVsl();
+            return;
+          }
+          if (state.step === TOTAL - 2) {
+            showScoring();
+            return;
+          }
+          state.step += 1;
+          save();
+          render();
+        }
+
+        function lessMotion() {
+          return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+        }
+
+        function testMode() {
+          try { return new URLSearchParams(location.search).get("test") === "true"; }
+          catch (e) { return false; }
+        }
+
+        function bindPitch() {
+          if (pitchBound) return;
+          pitchBound = true;
+          var listPitch = {
+            "6ae3f3506efe4af039149475": { delay: 3089 },
+            "6ae3f19fd3ed53b381caa748": { delay: 3208 }
+          };
+          var alreadyInitialized = false;
+          document.addEventListener("player:ready", function (event) {
+            if (alreadyInitialized) return;
+            var detail = event.detail || {};
+            var config = detail.config || {};
+            var player = detail.player || document.querySelector("vturb-smartplayer");
+            var playerId = config.id;
+            var pitchConfig = listPitch[playerId];
+            if (!playerId || !pitchConfig || !player || typeof player.displayHiddenElements !== "function") return;
+            alreadyInitialized = true;
+            document.getElementById("player-slot").classList.add("is-ready");
+            var delay = testMode() ? 5 : pitchConfig.delay;
+            player.displayHiddenElements(delay, [".esconder"], { persist: true });
+          });
+        }
+
+        function mountPlayer() {
+          var slot = document.getElementById("player-slot");
+          if (!slot.querySelector("vturb-smartplayer")) {
+            var el = document.createElement("vturb-smartplayer");
+            el.id = PLAYER_ID;
+            el.setAttribute("style", "display:block;margin:0 auto;width:100%;");
+            slot.appendChild(el);
+          }
+          if (!document.querySelector('script[src="' + PLAYER_SRC + '"]')) {
+            var s = document.createElement("script");
+            s.src = PLAYER_SRC;
+            s.async = true;
+            document.head.appendChild(s);
+          }
+        }
+
+        function loadWithRetry(id, src, attrs) {
+          var max = 4;
+          function start(attempt) {
+            var current = document.getElementById(id);
+            if (current && current.getAttribute("data-ok") === "1") return;
+            if (current && current.parentNode) current.parentNode.removeChild(current);
+            if (id === "utmify-pixel") window.pixelId = PIXEL_ID;
+            var script = document.createElement("script");
+            script.id = id;
+            script.async = true;
+            script.src = src;
+            if (attrs) {
+              Object.keys(attrs).forEach(function (name) {
+                script.setAttribute(name, attrs[name]);
+              });
+            }
+            script.onload = function () {
+              script.setAttribute("data-ok", "1");
+            };
+            script.onerror = function () {
+              if (attempt >= max) return;
+              window.setTimeout(function () { start(attempt + 1); }, 400 * attempt);
+            };
+            (document.head || document.documentElement).appendChild(script);
+          }
+          start(1);
+        }
+
+        function injectUtmify() {
+          window.pixelId = PIXEL_ID;
+          loadWithRetry("utmify-pixel", PIXEL_SRC);
+          loadWithRetry("utmify-utms", "https://cdn.utmify.com.br/scripts/utms/latest.js", {
+            "data-utmify-prevent-xcod-sck": "",
+            "data-utmify-prevent-subids": ""
+          });
+        }
+
+        function injectTrack() {
+          if (document.getElementById("trackcontrol-live")) return;
+          var s = document.createElement("script");
+          s.id = "trackcontrol-live";
+          s.src = TRACK_SRC;
+          s.defer = true;
+          document.head.appendChild(s);
+        }
+
+        function carryParams(anchor) {
+          try {
+            var url = new URL(anchor.href, location.href);
+            var incoming = new URLSearchParams(location.search);
+            incoming.forEach(function (value, key) {
+              if (!url.searchParams.has(key)) url.searchParams.append(key, value);
+            });
+            anchor.href = url.toString();
+          } catch (e) {}
+        }
+
+        document.addEventListener("click", function (event) {
+          var anchor = event.target.closest ? event.target.closest("a.buylink") : null;
+          if (anchor) carryParams(anchor);
+        }, true);
+
+        function startStock() {
+          var counter = offer.querySelector("[data-stock]");
+          if (!counter || counter.getAttribute("data-stock-on") === "1") return;
+          counter.setAttribute("data-stock-on", "1");
+          var start = Number(counter.getAttribute("data-stock")) || 88;
+          var floor = Number(counter.getAttribute("data-stock-floor")) || 6;
+          var key = counter.getAttribute("data-stock-key") || "memoflw_offers_left_v1";
+          var stall = 16;
+          var left = start;
+          try {
+            var stored = parseInt(sessionStorage.getItem(key), 10);
+            if (stored >= floor && stored <= start) left = stored;
+          } catch (e) {}
+          counter.textContent = String(left);
+
+          function delay() {
+            var base = left > 30 ? 2500 : left > stall ? 4500 : 18000 + (stall - left) * 9000;
+            return base + Math.random() * base * 0.8;
+          }
+
+          function tick() {
+            if (left <= floor) return;
+            var step = left > 45 && Math.random() < 0.2 ? 2 : 1;
+            if (left > stall && left - step < stall) step = left - stall;
+            left = Math.max(floor, left - step);
+            try { sessionStorage.setItem(key, String(left)); } catch (e) {}
+            counter.textContent = String(left);
+            window.setTimeout(tick, delay());
+          }
+
+          window.setTimeout(tick, delay());
+        }
+
+        function onOfferShown() {
+          if (offer.getAttribute("data-revealed") === "1") return;
+          if (window.getComputedStyle(offer).display === "none") return;
+          offer.setAttribute("data-revealed", "1");
+          offer.classList.add("is-shown");
+          var notice = offer.querySelector("[data-offer-notice]");
+          if (notice) notice.textContent = notice.getAttribute("data-offer-notice");
+          startStock();
+          window.setTimeout(function () {
+            offer.scrollIntoView({ behavior: lessMotion() ? "auto" : "smooth", block: "end" });
+          }, lessMotion() ? 0 : 420);
+        }
+
+        function watchPlayerSize() {
+          var slot = document.getElementById("player-slot");
+          var tries = 0;
+          var timer = window.setInterval(function () {
+            var player = slot.querySelector("vturb-smartplayer");
+            tries += 1;
+            if (player && player.offsetHeight > 80) {
+              slot.classList.add("is-ready");
+              window.clearInterval(timer);
+            } else if (tries > 40) {
+              window.clearInterval(timer);
+            }
+          }, 250);
+        }
+
+        function watchOffer() {
+          if (offerWatching) return;
+          offerWatching = true;
+          onOfferShown();
+          if (!window.MutationObserver) return;
+          var observer = new MutationObserver(onOfferShown);
+          observer.observe(offer, { attributes: true, attributeFilter: ["style", "class"] });
+        }
+
+        function openVsl() {
+          state.vsl = true;
+          save();
+          render();
+          modal.hidden = false;
+          document.body.classList.add("is-vsl");
+          quiz.setAttribute("inert", "");
+          quiz.setAttribute("aria-hidden", "true");
+          document.title = document.getElementById("vsl-title").textContent;
+          document.getElementById("vsl-title").focus();
+          if (vslStarted) return;
+          vslStarted = true;
+          window._plt = Date.now();
+          injectUtmify();
+          try {
+            bindPitch();
+            mountPlayer();
+            injectTrack();
+            watchOffer();
+            watchPlayerSize();
+          } catch (e) {}
+          if (testMode()) {
+            window.setTimeout(function () {
+              if (window.getComputedStyle(offer).display === "none") offer.style.display = "block";
+            }, 8000);
+          }
+        }
+
+        if (state.step > 0 || state.vsl) lockHistory();
+        render();
+        if (state.vsl) openVsl();
+      })();
+    </script>
+  </body>
+</html>
